@@ -9,8 +9,7 @@ use Mojo::UserAgent;
 
 my $ua = Mojo::UserAgent->new( cookie_jar => 0 );
 
-our $VERSION = '0.2';
-
+our $VERSION = '0.3';
 
 my $make_req = sub {
     my $ctrl = shift;
@@ -19,6 +18,7 @@ my $make_req = sub {
 
     my $tx = Mojo::Transaction::HTTP->new;
     my $nr = $tx->req;
+    $nr->method($ctrl->req->method);
 
     # prepare requiest
     $nr->url->parse($dest_url);
@@ -27,17 +27,18 @@ my $make_req = sub {
     $req_path =~ s/^\Q${base_path}//;
     $nr->url->path($req_path);
     $nr->url->query($ctrl->req->url->query);
-    $nr->method($ctrl->req->method);
-    $nr->body($ctrl->req->body);
 
     # copy headers
     my $headers = $ctrl->req->headers->to_hash(1);
     delete $headers->{Host};
     for (qw(Referer Origin)){
-        $headers->{$_}[0] =~ s/^\Q${loc_url}/$dest_url/ 
-            if ref $headers->{$_} eq 'ARRAY';
+        next unless $headers->{$_}[0];
+        $headers->{$_}[0] =~ s/^\Q${loc_url}/$dest_url/;
     }
     $nr->headers->from_hash($headers);
+    # hmm I bet there is a cooler way of doing that
+    # any hints ?
+    $nr->body($ctrl->req->build_body) if $ctrl->req->headers->content_length;
     return $tx;
 };
 
@@ -73,10 +74,9 @@ sub register {
                     $ctrl->render(status => 500, text => 'ERROR '. $err->{code} . ': ' . $err->{message});
                     return;
                 }
-                $log->debug($res->code);
                 if ($loc_url and $res->code =~ /^302$/){
                     my $location = $res->headers->location;
-                    if ($location =~ s/^\Q${dest_url}/$loc_url/){
+                    if ($location and $location =~ s/^\Q${dest_url}/$loc_url/){
                         $res->headers->location($location);
                     }
                 }

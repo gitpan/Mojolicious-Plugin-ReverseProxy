@@ -1,30 +1,30 @@
---- #YAML:1.0
-name:               Mojolicious-Plugin-ReverseProxy
-version:            0.2
-abstract:           ReverseProxy plugin for the Mojolicious Perl framework
+---
+abstract: 'ReverseProxy plugin for the Mojolicious Perl framework'
 author:
-    - Tobias Oetiker <tobi@oetiker.ch>
-license:            artistic_2
-distribution_type:  module
-configure_requires:
-    ExtUtils::MakeMaker:  0
+  - 'Tobias Oetiker <tobi@oetiker.ch>'
 build_requires:
-    ExtUtils::MakeMaker:  0
-requires:
-    Mojolicious:  5.0
-    perl:         5.010001
-resources:
-    bugtracker:  https://github.com/oetiker/Mojolicious-Plugin-ReverseProxy/issues
-    license:     http://www.opensource.org/licenses/artistic-license-2.0
-    repository:  https://github.com/oetiker/Mojolicious-Plugin-ReverseProxy
-no_index:
-    directory:
-        - t
-        - inc
-        - t
-        - example
-        - setup
-generated_by:       ExtUtils::MakeMaker version 6.57_05
+  ExtUtils::MakeMaker: 0
+configure_requires:
+  ExtUtils::MakeMaker: 0
+dynamic_config: 1
+generated_by: 'ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921'
+license: artistic_2
 meta-spec:
-    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
-    version:  1.4
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Mojolicious-Plugin-ReverseProxy
+no_index:
+  directory:
+    - t
+    - inc
+    - t
+    - example
+    - setup
+requires:
+  Mojolicious: 5.0
+  perl: 5.010001
+resources:
+  bugtracker: https://github.com/oetiker/Mojolicious-Plugin-ReverseProxy/issues
+  license: http://www.opensource.org/licenses/artistic-license-2.0
+  repository: https://github.com/oetiker/Mojolicious-Plugin-ReverseProxy
+version: 0.3
