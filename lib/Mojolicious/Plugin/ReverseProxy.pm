@@ -9,36 +9,30 @@ use Mojo::UserAgent;
 
 my $ua = Mojo::UserAgent->new( cookie_jar => 0 );
 
-our $VERSION = '0.3';
+our $VERSION = '0.4';
 
 my $make_req = sub {
     my $ctrl = shift;
     my $dest_url = shift;
     my $loc_url = shift;
 
-    my $tx = Mojo::Transaction::HTTP->new;
-    my $nr = $tx->req;
-    $nr->method($ctrl->req->method);
+    my $tx = Mojo::Transaction::HTTP->new( req=> $ctrl->req->clone );
+    my $headers = $tx->req->headers;
+    $headers->remove('Host');
+    for (qw(Referer Origin)){
+        my $value = $headers->header($_) || next;
+        $value =~ s/^\Q${loc_url}/$dest_url/;
+        $headers->header($_ => $value );
+    }
 
-    # prepare requiest
-    $nr->url->parse($dest_url);
+    my $url = $tx->req->url;
+    $url->parse($dest_url);
+    $url->query($ctrl->req->url->query);
     my $req_path = $ctrl->req->url->path;
     my $base_path = Mojo::URL->new($loc_url)->path;
     $req_path =~ s/^\Q${base_path}//;
-    $nr->url->path($req_path);
-    $nr->url->query($ctrl->req->url->query);
+    $url->path($req_path);
 
-    # copy headers
-    my $headers = $ctrl->req->headers->to_hash(1);
-    delete $headers->{Host};
-    for (qw(Referer Origin)){
-        next unless $headers->{$_}[0];
-        $headers->{$_}[0] =~ s/^\Q${loc_url}/$dest_url/;
-    }
-    $nr->headers->from_hash($headers);
-    # hmm I bet there is a cooler way of doing that
-    # any hints ?
-    $nr->body($ctrl->req->build_body) if $ctrl->req->headers->content_length;
     return $tx;
 };
 
