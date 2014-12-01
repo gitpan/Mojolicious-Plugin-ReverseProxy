@@ -21,10 +21,10 @@ no_index:
     - example
     - setup
 requires:
-  Mojolicious: 5.0
+  Mojolicious: 5.63
   perl: 5.010001
 resources:
   bugtracker: https://github.com/oetiker/Mojolicious-Plugin-ReverseProxy/issues
   license: http://www.opensource.org/licenses/artistic-license-2.0
   repository: https://github.com/oetiker/Mojolicious-Plugin-ReverseProxy
-version: 0.6
+version: 0.7

@@ -10,7 +10,7 @@ use Carp qw(croak);
 
 my $ua = Mojo::UserAgent->new( cookie_jar => 0 );
 
-our $VERSION = '0.6';
+our $VERSION = '0.7';
 
 my $make_req = sub {
     my $c = shift;
@@ -25,8 +25,6 @@ my $make_req = sub {
     $req_path =~ s/^\Q${mount_point}//;
     $url->path($req_path);
     $tx->req->headers->header('Host',$url->host_port);
-    $tx->req->headers->content_length(length($tx->req->build_body)) 
-        if $tx->req->headers->content_length;
     return $tx;
 };
 

@@ -35,7 +35,7 @@
       },
       "runtime" : {
          "requires" : {
-            "Mojolicious" : "5.0",
+            "Mojolicious" : "5.63",
             "perl" : "5.010001"
          }
       }
@@ -52,5 +52,5 @@
          "url" : "https://github.com/oetiker/Mojolicious-Plugin-ReverseProxy"
       }
    },
-   "version" : "0.6"
+   "version" : "0.7"
 }
