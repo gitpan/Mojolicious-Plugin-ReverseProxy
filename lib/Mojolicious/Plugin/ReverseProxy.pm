@@ -5,12 +5,12 @@ use Mojo::UserAgent;
 use Carp qw(croak);
 
 # let's have our own private unadulterated useragent
-# insttead of using the shared one from app. Who knows
+# instead of using the shared one from app. Who knows
 # what all the others are doing to the poor thing.
 
 my $ua = Mojo::UserAgent->new( cookie_jar => 0 );
 
-our $VERSION = '0.7';
+our $VERSION = '0.701';
 
 my $make_req = sub {
     my $c = shift;
@@ -118,9 +118,9 @@ __END__
 The Mojolicious::Plugin::ReverseProxy lets your register a proxy route. The
 module is rather mindless in the sense that it does not try to help you with
 fixing headers or content to actually work with the proxy, apart from the
-C<Host> and C<Content-Length> headers.
+C<Host> header.
 
-What makes this Plugin really usefil, is that you can supply a
+What makes this Plugin really useful, is that you can supply a
 C<req_processor> and a C<res_processor> callback which will act on the
 request prior to passing it on to the destination and on the response prior
 to returning it to the client respectively.
@@ -133,7 +133,7 @@ The plugin takes the following options:
 
 Where should the proxy connect to
 
-  destination_name => 'http://www.oetiker.ch'
+  destination_url => 'http://www.oetiker.ch'
 
 =item routes (defaults to app->routes)
 
@@ -145,11 +145,11 @@ under which path should the proxy appear.
 
 =item req_processor
 
-Can be pointed to an anonymous sub routine which is called prior to handing
-controll over to the user agent.
+Can be pointed to an anonymous subroutine which is called prior to handing
+control over to the user agent.
 
-If you render the page in the req_processor callback, the page will be
-returned immediately without calling the destination_url
+If you render the page in the C<req_processor callback>, the page will be
+returned immediately without calling the C<destination_url>
 
 =item res_processor
 
