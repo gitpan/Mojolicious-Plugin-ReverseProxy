@@ -27,4 +27,4 @@ resources:
   bugtracker: https://github.com/oetiker/Mojolicious-Plugin-ReverseProxy/issues
   license: http://www.opensource.org/licenses/artistic-license-2.0
   repository: https://github.com/oetiker/Mojolicious-Plugin-ReverseProxy
-version: 0.702
+version: 0.703
